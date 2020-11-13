@@ -9,6 +9,7 @@ const ClientError = require('./client-error');
 const staticMiddleware = require('./static-middleware');
 const sessionMiddleware = require('./session-middleware');
 // const emailTemplate = require('./email');
+// const intTest = require('../client/util/intTest');
 
 const app = express();
 
@@ -17,12 +18,8 @@ app.use(sessionMiddleware);
 
 app.use(express.json());
 
-// const intTest = (id, next) => {
-//   const test = /^[0-9]\d*$/;
-//   if (!test.exec(id)) {
-//     return next(new ClientError(`id ${id} is not a valid positive integer`, 400));
-//   } else return null;
-// };
+// intTest
+// next(new ClientError(`id ${id} is not a valid positive integer`, 400));
 
 // const transporter = nodemailer.createTransport({
 //   service: 'gmail',
