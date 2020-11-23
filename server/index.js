@@ -1,8 +1,6 @@
 require('dotenv/config');
 const express = require('express');
-// const bcrypt = require('bcrypt');
-// const jwt = require('jsonwebtoken');
-// const nodemailer = require('nodemailer');
+const socket = require('socket.io');
 
 // const db = require('./database');
 const ClientError = require('./client-error');
@@ -29,9 +27,16 @@ app.use(express.json());
 //   }
 // });
 
-app.use('/api', (req, res, next) => {
-  next(new ClientError(`cannot ${req.method} ${req.originalUrl}`, 404));
+// app.use('/api', (req, res, next) => {
+//   next(new ClientError(`cannot ${req.method} ${req.originalUrl}`, 404));
+// });
+
+const server = app.listen(process.env.PORT, () => {
+  // eslint-disable-next-line no-console
+  console.log('Listening on port', process.env.PORT);
 });
+
+app.use(express.static('public'));
 
 app.use((err, req, res, next) => {
   if (err instanceof ClientError) {
@@ -42,6 +47,13 @@ app.use((err, req, res, next) => {
       error: 'an unexpected error occurred'
     });
   }
+});
+
+const io = socket(server);
+
+io.on('connection', () => {
+  // eslint-disable-next-line no-console
+  console.log('made socket connection');
 });
 
 module.exports = app;
